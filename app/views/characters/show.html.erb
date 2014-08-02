@@ -1,0 +1,56 @@
+<style>
+table,th,td
+{
+border:1px solid black;
+padding:2px;
+}
+td {
+  vertical-align: top;
+  padding: 4px;
+}
+td {
+  text-align: left;
+  padding: 4px;
+}
+</style>
+<h2>
+Character
+</h2>
+<table>
+  <tr>
+    <th style="width:80px">ID</th>
+    <th style="width:400px">NAME</th>
+    <th style="width:400px">DESCRIPTION</th>
+  </tr>
+  <tr>
+    <td><%= @response["data"]["results"][0]["id"] %></td>
+    <td><%= @response["data"]["results"][0]["name"] %></td>
+    <td><%= @response["data"]["results"][0]["description"] %></td>
+  </tr>
+</table>
+<h2>
+Comics
+</h2>
+<% if @response["data"]["results"][0]["comics"]["available"] > 0 %>
+<table>
+  <tr>
+    <th style="width:50px"></th>
+    <th style="width:880">COMICS</th>
+  </tr>
+
+  <% @response["data"]["results"][0]["comics"]["items"].each_with_index do |comic, index| %>
+    <tr>
+      <td><%= index + 1 %></td>
+      <td><%= comic["name"] %></td>
+    </tr>
+  <% end %>
+</table>
+
+<% if @response["data"]["results"][0]["comics"]["available"] > @response["data"]["results"][0]["comics"]["returned"] %>
+<h3>
+Plus an additional <%= @response["data"]["results"][0]["comics"]["available"] - @response["data"]["results"][0]["comics"]["returned"] %> comics.
+</h3>
+<% end %>
+<% end %>
+<%= link_to 'Back', :back %>
+

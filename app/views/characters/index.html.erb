@@ -1,0 +1,36 @@
+<h1>Marvel Character Listing</h1>
+
+<style>
+table,th,td
+{
+border:1px solid black;
+padding:2px;
+}
+</style>
+
+<table>
+  <tr>
+    <th style="width:50px">OFFSET</th>
+    <th style="width:80px">ID</th>
+    <th style="width:400px", colspan="2">NAME</th>
+  </tr>
+
+  <% @response["data"]["results"].each_with_index do |character, index| %>
+    <tr>
+      <td><%= index + @response["data"]["offset"] %></td>
+      <td><%= character["id"] %></td>
+      <td><%= character["name"] %></td>
+      <td><%= link_to 'Show', character_path(character["id"]) %></td>
+    </tr>
+  <% end %>
+</table>
+<br>
+<form action="characters" mothod="get">
+  Offset: <input type="text" 
+    value=<%= @response["data"]["offset"] + @response["data"]["limit"] %> 
+    name="offset">
+  Limit: <input type="text" value=<%= @response["data"]["limit"] %> name="limit">
+  <input type="submit" value="Submit">
+</form>
+<br>
+<%= link_to "Logout", destroy_user_session_path, :method => :delete %>
